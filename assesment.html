@@ -1,4 +1,5 @@
 <!doctype html>
+
 <body>
     <canvas id="gameCanvas" width="700" height="500"></canvas>
     <script>
@@ -8,29 +9,58 @@
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
 
+            document.addEventListener('keydown', keyPressed);
+            document.addEventListener('keyup', keyReleased);
+            
             setInterval(mainloop, 1000 / 50);
         }
-        
+
         var playerXpos = 0;
         var playerYpos = 0;
         var PlayerXspeed = 5;
         
+        const UP_KEY = 38;
+        
+        var upkeyPressed = false;
+        var yVel = 0;
+        var jumpPower = -8;
+        var fallRate = 0.2;
+        
         function mainloop() {
-            colorRect(0,0,canvas.width,canvas.height,'#03d7fc'); // bg
-            colorRect(playerXpos,playerYpos,20,20,'black');
+            colorRect(0, 0, canvas.width, canvas.height, '#03d7fc'); // bg
+            colorRect(playerXpos, playerYpos, 20, 20, 'black');
             Playermove();
         }
-        
-         function colorRect(x,y,w,h,c){
+
+        function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
-            canvasContext.fillRect(x,y,w,h);
+            canvasContext.fillRect(x, y, w, h);
+        }
+
+        function Playermove() {
+            if(upkeyPressed){
+                yVel = jumpPower;
+            }
+            
+            playerYpos += yVel;
+            yVel += fallRate;
+
+
+        }
+
+        function keyPressed(evt) {
+            if(evt.keyCode == UP_KEY){
+               upkeyPressed = true;
+            }
+
         }
         
-        function Playermove(){
-            playerXpos += PlayerXspeed;
-            
-            
-        }
-    
+        function keyReleased(evt) {
+            if(evt.keyCode == UP_KEY){
+               upkeyPressed = false;
+            }
+
+        } 
+
     </script>
 </body>
