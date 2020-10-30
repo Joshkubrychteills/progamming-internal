@@ -19,17 +19,22 @@
         var playerYpos = 0;
         var PlayerXspeed = 5;
         const playerSize = 20;
-        const UP_KEY = 38;
 
-        var upkeyPressed = false;
         var yVel = 0;
         var jumpPower = -8;
         var fallRate = 0.2;
-        
+
         var gameRun = true;
 
+        const RIGHT_KEY = 39;
+        const LEFT_KEY = 37;
+        const SPACE_KEY = 32;
+        var spaceKeyPressed = false;
+        var leftKeyPressed = false;
+        var rightKeyPressed = false;
+
         function mainloop() {
-            if(gameRun){
+            if (gameRun) {
                 colorRect(0, 0, canvas.width, canvas.height, '#03d7fc'); // bg
                 colorRect(playerXpos, playerYpos, playerSize, playerSize, 'black');
                 Playermove();
@@ -44,36 +49,72 @@
         }
 
         function Playermove() {
-   
-            if (upkeyPressed) {
+
+            if (spaceKeyPressed) {
                 yVel = jumpPower;
             }
 
             playerYpos += yVel;
             yVel += fallRate;
-            if (playerYpos > canvas.height){
-                gameRun = false;
+            if (playerYpos > canvas.height) {
+                
             }
-            if(playerYpos < 0){
+            if (playerYpos < 0) {
                 playerYpos = 0;
                 yVel = fallRate;
             }
+            if(playerYpos + playerSize / 2  > canvas.height){
+               playerYpos = canvas.height - playerSize;
+            }
+            
+            if(playerXpos < 0) {
+                playerXpos = 0;
+                
+                
+            }
+            if(playerXpos > canvas.width){
+                playerXpos = canvas.width;
+                
+            }
+            
+            if(rightKeyPressed){
+                playerXpos += PlayerXspeed; 
+            }
+                
+            if(leftKeyPressed){
+                playerXpos -= PlayerXspeed;   
+                  
+                console.log('eh')
+            }
 
         }
 
-        function keyPressed(evt) {
-            if (evt.keyCode == UP_KEY) {
-                upkeyPressed = true;
-            }
 
+        function keyPressed(evt) {
+            if (evt.keyCode == SPACE_KEY) {
+                spaceKeyPressed = true;
+            }
+            if (evt.keyCode == LEFT_KEY) {
+                leftKeyPressed = true;
+            }
+            if (evt.keyCode == RIGHT_KEY) {
+                rightKeyPressed = true;
+            }
         }
 
         function keyReleased(evt) {
-            if (evt.keyCode == UP_KEY) {
-                upkeyPressed = false;
+            if (evt.keyCode == SPACE_KEY) {
+                spaceKeyPressed = false;
             }
-
+            if (evt.keyCode == LEFT_KEY) {
+                leftKeyPressed = false;
+            }
+            if (evt.keyCode == RIGHT_KEY) {
+                rightKeyPressed = false;
+            }
         }
 
     </script>
 </body>
+
+                console.log('right')
