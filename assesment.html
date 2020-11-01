@@ -66,17 +66,14 @@
             if(playerYpos + playerSize / 2  > canvas.height){
                playerYpos = canvas.height - playerSize;
             }
-            
-            if(playerXpos < 0) {
+          
+            if(playerXpos > canvas.width){
                 playerXpos = 0;
                 
-                
             }
-            if(playerXpos > canvas.width){
-                playerXpos = canvas.width;
-                
+            if(playerXpos < 0){
+                playerXpos = canvas.width - playerSize;
             }
-            
             if(rightKeyPressed){
                 playerXpos += PlayerXspeed; 
             }
