@@ -24,8 +24,8 @@
         var EnemyXpos = 700; //enemy
         var EnemyYpos = 0;
         var EnemyXspeed = 5;
-        var EnemyYSize = 50;
-        var EnemyXSize = 450;
+        var EnemyYSize = 450;
+        var EnemyXSize = 50;
 
         var yVel = 0; //gravity
         var jumpPower = -6;
@@ -48,6 +48,9 @@
                 Playermove();
                 EnemyMove();
                 GameConditions();
+            } else {
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
+                colorText('Game over',100,100,'20px Arial','red'); 
             }
 
         }
@@ -55,6 +58,13 @@
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
+
+        }
+        
+        function colorText(msg,x,y,f,c) {
+            canvasContext.font = f;
+            canvasContext.fillStyle = c;
+            canvasContext.fillText(msg, x, y);
 
         }
 
