@@ -1,7 +1,7 @@
 <!doctype html>
 
 <body>
-    <canvas id="gameCanvas" width="700" height="500"></canvas>
+    <canvas id="gameCanvas" width="700" height="500"> </canvas>
     <script>
         var canvas, canvasContext;
 
@@ -15,18 +15,25 @@
             setInterval(mainloop, 1000 / 50);
         }
 
-        var playerXpos = 0;
+        //const and vars
+        var playerXpos = 0; //player
         var playerYpos = 0;
-        var PlayerXspeed = 5;
+        var PlayerXspeed = 8;
         const playerSize = 20;
 
-        var yVel = 0;
-        var jumpPower = -8;
+        var EnemyXpos = 700; //enemy
+        var EnemyYpos = 0;
+        var EnemyXspeed = 5;
+        var EnemyYSize = 50;
+        var EnemyXSize = 450;
+
+        var yVel = 0; //gravity
+        var jumpPower = -6;
         var fallRate = 0.2;
 
         var gameRun = true;
 
-        const RIGHT_KEY = 39;
+        const RIGHT_KEY = 39; //player move
         const LEFT_KEY = 37;
         const SPACE_KEY = 32;
         var spaceKeyPressed = false;
@@ -35,9 +42,12 @@
 
         function mainloop() {
             if (gameRun) {
-                colorRect(0, 0, canvas.width, canvas.height, '#03d7fc'); // bg
-                colorRect(playerXpos, playerYpos, playerSize, playerSize, 'black');
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
+                colorRect(playerXpos, playerYpos, playerSize, playerSize, 'blue');
+                colorRect(EnemyXpos, EnemyYpos, EnemyXSize, EnemyYSize, 'Red');
                 Playermove();
+                EnemyMove();
+                GameConditions();
             }
 
         }
@@ -48,43 +58,62 @@
 
         }
 
-        function Playermove() {
+        function GameConditions() {
+            if (playerXpos + playerSize > EnemyXpos && playerXpos < EnemyXpos + EnemyXSize && playerYpos + playerSize > EnemyYpos && playerYpos < EnemyYpos + EnemyYSize) {
+                gameRun = false;
+            }
+
+        }
+
+
+        function Playermove() { //playerMove
 
             if (spaceKeyPressed) {
                 yVel = jumpPower;
+
             }
 
             playerYpos += yVel;
             yVel += fallRate;
             if (playerYpos > canvas.height) {
-                
+
             }
             if (playerYpos < 0) {
                 playerYpos = 0;
                 yVel = fallRate;
             }
-            if(playerYpos + playerSize / 2  > canvas.height){
-               playerYpos = canvas.height - playerSize;
+            if (playerYpos + playerSize / 2 > canvas.height) {
+                playerYpos = canvas.height - playerSize;
             }
-          
-            if(playerXpos > canvas.width){
+
+            if (playerXpos > canvas.width) {
                 playerXpos = 0;
-                
+
             }
-            if(playerXpos < 0){
+            if (playerXpos < 0) {
                 playerXpos = canvas.width - playerSize;
             }
-            if(rightKeyPressed){
-                playerXpos += PlayerXspeed; 
+            if (rightKeyPressed) {
+                playerXpos += PlayerXspeed;
+
             }
-                
-            if(leftKeyPressed){
-                playerXpos -= PlayerXspeed;   
-                  
-                console.log('eh')
+
+            if (leftKeyPressed) {
+                playerXpos -= PlayerXspeed;
+
             }
 
         }
+
+        function EnemyMove() {
+            EnemyXpos -= EnemyXspeed
+            if (EnemyXpos < 0) {
+                EnemyXpos = canvas.width
+            }
+        }
+
+
+
 
 
         function keyPressed(evt) {
@@ -109,9 +138,8 @@
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = false;
             }
+
         }
 
     </script>
 </body>
-
-                console.log('right')
