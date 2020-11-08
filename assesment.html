@@ -11,6 +11,10 @@
 
             document.addEventListener('keydown', keyPressed);
             document.addEventListener('keyup', keyReleased);
+            
+            for(var i = 0; i < totalBars; i++){
+                makebars();
+            }
 
             setInterval(mainloop, 1000 / 50);
         }
@@ -43,8 +47,9 @@
         function mainloop() {
             if (gameRun) {
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
-                colorRect(playerXpos, playerYpos, playerSize, playerSize, 'blue');
-                colorRect(EnemyXpos, EnemyYpos, EnemyXSize, EnemyYSize, 'Red');
+                colorRect(playerXpos, playerYpos, playerSize, playerSize, 'blue'); // player
+                colorRect(EnemyXpos, EnemyYpos, EnemyXSize, EnemyYSize, 'Red'); //bar
+                
                 Playermove();
                 EnemyMove();
                 GameConditions();
@@ -74,7 +79,28 @@
             }
 
         }
-
+        
+        var bars = [];
+        var totalBars = 10;
+        var barCount = 0;
+        
+        function makebars() {
+            var barWidth = 20;
+            var barXspeed = Math.floor(Math.random()*(12 - 5)) + 5;
+            var barHeight = Math.floor(Math.random()*(50 - 30)) + 30;
+            var barXpos = canvas.width - barCount * barWidth;
+            var barYpos = Math.floor(Math.random()*(canvas.height - barHeight));
+            
+            var bar = {
+                barXpos: barXpos,
+                barYpos: barYpos,
+                barWidth: barWidth,
+                barHeight: barHeight,
+                barXspeed: barXspeed
+            }
+            
+            bars.push(bar); 
+        }
 
         function Playermove() { //playerMove
 
