@@ -11,10 +11,6 @@
 
             document.addEventListener('keydown', keyPressed);
             document.addEventListener('keyup', keyReleased);
-            
-            for(var i = 0; i < totalBars; i++){
-                makebars();
-            }
 
             setInterval(mainloop, 1000 / 50);
         }
@@ -43,16 +39,35 @@
         var spaceKeyPressed = false;
         var leftKeyPressed = false;
         var rightKeyPressed = false;
+        
+        var difficulty = '';
+        var pass = false;
+        var totalEnemies = 2;
+        
+        while(pass == false){
+            difficulty = prompt('how hard do you want to play?','easy');
+            if(difficulty == 'easy' || difficulty == 'medium' || difficulty == 'hard'){
+               pass = true;
+            }
+        }
+        
+        if(difficulty == 'easy'){
+            totalEnemies = 5;
+        } else if(difficulty == 'medium'){
+            totalEnemies = 8;          
+        } else {
+            totalEnemies = 12;
+        }
 
         function mainloop() {
             if (gameRun) {
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
-                colorRect(playerXpos, playerYpos, playerSize, playerSize, 'blue'); // player
-                colorRect(EnemyXpos, EnemyYpos, EnemyXSize, EnemyYSize, 'Red'); //bar
-                
+                colorRect(playerXpos, playerYpos, playerSize, playerSize, 'blue');
+                colorRect(EnemyXpos, EnemyYpos, EnemyXSize, EnemyYSize, 'Red');
                 Playermove();
                 EnemyMove();
                 GameConditions();
+                JumpDelay();
             } else {
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
                 colorText('Game over',100,100,'20px Arial','red'); 
@@ -79,34 +94,13 @@
             }
 
         }
-        
-        var bars = [];
-        var totalBars = 10;
-        var barCount = 0;
-        
-        function makebars() {
-            var barWidth = 20;
-            var barXspeed = Math.floor(Math.random()*(12 - 5)) + 5;
-            var barHeight = Math.floor(Math.random()*(50 - 30)) + 30;
-            var barXpos = canvas.width - barCount * barWidth;
-            var barYpos = Math.floor(Math.random()*(canvas.height - barHeight));
-            
-            var bar = {
-                barXpos: barXpos,
-                barYpos: barYpos,
-                barWidth: barWidth,
-                barHeight: barHeight,
-                barXspeed: barXspeed
-            }
-            
-            bars.push(bar); 
-        }
+
 
         function Playermove() { //playerMove
 
-            if (spaceKeyPressed) {
+            if (spaceKeyPressed && jumps) {
                 yVel = jumpPower;
-
+                jumps = false;
             }
 
             playerYpos += yVel;
@@ -148,7 +142,11 @@
             }
         }
 
-
+        var jumps = true;
+        
+        function JumpDelay(){
+            jumps = true;
+        }
 
 
 
@@ -167,6 +165,7 @@
         function keyReleased(evt) {
             if (evt.keyCode == SPACE_KEY) {
                 spaceKeyPressed = false;
+                setInterval(JumpDelay,5000);
             }
             if (evt.keyCode == LEFT_KEY) {
                 leftKeyPressed = false;
